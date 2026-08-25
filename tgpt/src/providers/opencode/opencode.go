@@ -1,0 +1,121 @@
+package opencode
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	http "github.com/bogdanfinn/fhttp"
+
+	"github.com/aandrew-me/tgpt/v2/src/client"
+	"github.com/aandrew-me/tgpt/v2/src/structs"
+)
+
+type RequestBody struct {
+	Model    string `json:"model"`
+	Stream   bool   `json:"stream"`
+	Messages []any  `json:"messages"`
+	Tools    []any  `json:"tools,omitempty"`
+}
+
+func NewRequest(input string, params structs.Params) (*http.Response, error) {
+	client, err := client.NewClient()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	model := "mimo-v2.5-free"
+	if params.ApiModel != "" {
+		model = params.ApiModel
+	} else if envModel := os.Getenv("OPENCODE_MODEL"); envModel != "" {
+		model = envModel
+	}
+
+	apiKey := "public"
+	if params.ApiKey != "" {
+		apiKey = params.ApiKey
+	} else if envKey := os.Getenv("OPENCODE_API_KEY"); envKey != "" {
+		apiKey = envKey
+	} else if envKey := os.Getenv("AI_API_KEY"); envKey != "" {
+		apiKey = envKey
+	}
+
+	url := params.Url
+	if url == "" {
+		if envUrl := os.Getenv("OPENCODE_URL"); envUrl != "" {
+			url = envUrl + "/v1/chat/completions"
+		}
+	}
+
+	if url == "" {
+		url = "https://opencode.ai/zen/v1/chat/completions"
+	}
+
+	messages := make([]any, 0, len(params.PrevMessages)+2)
+	if params.SystemPrompt != "" {
+		messages = append(messages, structs.DefaultMessage{
+			Content: params.SystemPrompt,
+			Role:    "system",
+		})
+	}
+
+	requestInfo := RequestBody{
+		Model:    model,
+		Stream:   true,
+		Messages: messages,
+		Tools:    params.Tools,
+	}
+
+	if len(params.PrevMessages) > 0 {
+		requestInfo.Messages = append(requestInfo.Messages, params.PrevMessages...)
+	}
+
+	if input != "" {
+		requestInfo.Messages = append(requestInfo.Messages, structs.DefaultMessage{
+			Role:    "user",
+			Content: input,
+		})
+	}
+
+	jsonRequest, err := json.Marshal(requestInfo)
+
+	if err != nil {
+		log.Fatal("Failed to build user request")
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonRequest))
+
+	if err != nil {
+		log.Fatal("Some error has occured.\nError:", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	if apiKey != "" {
+		req.Header.Set("Authorization", "Bearer "+apiKey)
+	}
+
+	return client.Do(req)
+}
+
+func GetMainText(line string) (mainText string) {
+	var obj = "{}"
+	if strings.Contains(line, "data: ") {
+		obj = strings.Split(line, "data: ")[1]
+	}
+
+	var d structs.CommonResponse
+	if err := json.Unmarshal([]byte(obj), &d); err != nil {
+		return ""
+	}
+
+	if len(d.Choices) > 0 {
+		mainText = d.Choices[0].Delta.Content
+		return mainText
+	}
+	return ""
+}

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtualenvs / builds
+.venv/
+venv/
+build/
+dist/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Local simulation state (only ignore *user-created* test sims, NOT
+# the pre-computed replays shipped with the repo). The pre-computed
+# replays live under July1_the_ville_isabella_maria_klaus-step-3-N
+# directories and are part of the full-fidelity payload.
+generative_agents/environment/frontend_server/storage/test-sim-*
+generative_agents/environment/frontend_server/storage/test-simulation-*
+generative_agents/environment/frontend_server/temp_storage/curr_*.json
+generative_agents/environment/frontend_server/temp_storage/path_tester_*.json
+
+# Logs / runtime
+*.log
+*.pid
+*.swp
+tmp/
+
+# Local API keys / secrets (do NOT commit these)
+generative_agents/reverie/backend_server/utils.py.local
+.env
+.envrc

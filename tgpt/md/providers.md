@@ -1,0 +1,27 @@
+### Currently available providers
+
+- [AnyAPI](https://docs.anyapi.ai/) (Multi-model API, 100k free anytokens/day, supports chat and image gen, many providers including deepseek, google, openai)
+- [Atlas Cloud](https://www.atlascloud.ai/) (OpenAI-compatible API, requires `ATLASCLOUD_API_KEY`, default model `qwen/qwen3.8-max`, supports `ATLASCLOUD_MODEL`, `ATLASCLOUD_URL`, and `ATLASCLOUD_BASE_URL`)
+- [Deepseek](https://www.deepseek.com/) (Requires API key)
+- [Deepseek Web](https://chat.deepseek.com/) (Web API, requires user token from chat.deepseek.com via `DEEPSEEK_WEB_TOKEN` / `--key` and a JS runtime like `node`, `bun`, or `deno` in PATH to solve Proof-of-Work, supports optional `DEEPSEEK_WEB_THINKING=true` and `DEEPSEEK_WEB_SEARCH=true` env vars)
+- [Fx](https://fx.sh/) (Free, fx.sh gateway, default model `zai/glm-5.2`)
+- [Aitopia](https://extensions.aitopia.ai/) (Free) (Uses gpt-4o-mini by default)
+- [Groq](https://groq.com/) (Requires a free API Key. [Many models](https://console.groq.com/docs/models))
+- [Isou](https://isou.chat/) (Free) (Deepseek-chat with SEARXNG)
+- [KoboldAI](https://koboldai-koboldcpp-tiefighter.hf.space/) (Free) (koboldcpp/HF_SPACE_Tiefighter-13B)
+- [LiteLLM](https://docs.litellm.ai/) (AI gateway proxy, access 100+ LLM providers via unified OpenAI-compatible API, default endpoint `http://localhost:4000/v1/chat/completions`, requires `--model` flag or `LITELLM_MODEL` env var)
+- [MiniMax](https://platform.minimaxi.com/) (Requires API key, default model `MiniMax-M2.7`)
+- [Ollama](https://www.ollama.com/) (Local models) (Supports many models)
+- [OllamaCloud](https://ollama.com/) (Cloud API) (Requires OLLAMA_API_KEY, default model `gpt-oss:120b`)
+- OmniRoute (OpenAI-compatible API router, default base URL `http://localhost:20128/v1`, default model `auto`, supports `OMNIROUTE_API_KEY`, `OMNIROUTE_MODEL`, `OMNIROUTE_URL`, `OMNIROUTE_BASE_URL` env vars)
+- [OpenAI](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) (All models, Requires API Key, supports custom endpoints)
+- [OpenCode](https://opencode.ai) (Free, uses opencode.ai/zen API, default model deepseek-v4-flash-free, default API key `public`, supports OPENCODE_API_KEY / OPENCODE_MODEL / OPENCODE_URL env vars)
+- [OpenRouter](https://openrouter.ai/) (OpenAI-compatible API, default model `openrouter/free`, supports `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `OPENROUTER_URL`, and `OPENROUTER_BASE_URL` env vars)
+- [Pollinations](https://pollinations.ai/) ([Many free models](https://text.pollinations.ai/models))
+- [Gemini](https://gemini.google.com) (Require a free API keys, supports [many models](https://ai.google.dev/gemini-api/docs/models/gemini), default model `gemini-2.0-flash`)
+- PowerBrain (Free)
+
+**Image Generation Models**: 
+- AnyAPI (Requires API key, 100k anytokens/day)
+- Pollinations (Free) ([Models](https://image.pollinations.ai/models))
+- MagicStudio (Free)
